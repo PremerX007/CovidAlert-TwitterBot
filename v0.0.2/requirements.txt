@@ -1,0 +1,5 @@
+requests
+tweepy
+
+#how to install all requirements
+# >> pip install -r /path/to/requirements.txt

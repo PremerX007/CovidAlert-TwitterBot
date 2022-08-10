@@ -1,0 +1,8 @@
+opencv-python
+numpy
+pytesseract
+tweepy
+selenium
+
+#how to install all requirements
+# >> pip install -r /path/to/requirements.txt
