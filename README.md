@@ -2,7 +2,7 @@
 
 ## :wave: Introduce
 :toolbox: **บอทกำลังอยู่ในช่วงการทดสอบ** :hammer_and_wrench: บน Microsoft Azure Function **(Serverless)**
-ตัวบอทสร้างมาเพื่อวัตถุประสงค์ในการบอกจำนวนผู้ติดเชื้อและผู้เสียชีวิตจากไวรัส SARS-CoV-2 ในแต่ละวัน ของประเทศไทย
+ตัวบอทสร้างมาเพื่อวัตถุประสงค์ในการแจ้งจำนวนผู้ติดเชื้อและผู้เสียชีวิตจากไวรัส SARS-CoV-2 ของประเทศไทยในแต่ละวัน 
 
 - [Twitter of @covidth_alert](https://twitter.com/covidth_alert)
 
