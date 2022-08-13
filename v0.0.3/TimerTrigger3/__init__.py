@@ -41,4 +41,13 @@ def main(mytimer: func.TimerRequest) -> None:
     API.update_status(timeline)
     logging.info("Tweeted @%s", tm)
 
+    # line notify
+    line_url = 'https://notify-api.line.me/api/notify'
+    line_token = 'HtWO4xLRZLpU32ty8VFo8gd759GkSx7CX9xV5hqgflS'
+    HEADERS = {'Authorization': 'Bearer ' + line_token}
+    line_info_datetime = today.strftime("%d-%m-%Y" + '@' + "%H:%M")
+    msg = line_info_datetime + " [INFO] Script Working!! : Microsoft Azure Serverless\nUser:bannawat_v@cmu.ac.th" 
+    response = requests.post(line_url,headers=HEADERS,params={"message": msg})
+    logging.info(response)
+
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
