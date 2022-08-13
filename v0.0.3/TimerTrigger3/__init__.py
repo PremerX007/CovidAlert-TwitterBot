@@ -25,7 +25,7 @@ def main(mytimer: func.TimerRequest) -> None:
     r = requests.get(url).json()
     a = r[0]
 
-    # Get Tranding Hasttag
+    # Get Tranding Hashtag in TH
     woeid = 23424960
     trends = API.get_place_trends(id = woeid)
     rs = trends[0]["trends"]
