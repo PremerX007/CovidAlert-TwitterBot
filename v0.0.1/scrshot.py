@@ -16,8 +16,8 @@ def collect_data():
     driver.close()
     driver.quit()
     print("[!] Collect Data Complete!")
-    path = "C:\\Users\\banna\\Downloads\\1-dash-tiles.png"
-    destination = "D:\\dir\\pictotext\\covid.png"
+    path = "C:\\/path/\\Downloads\\1-dash-tiles.png" #/path/ mean your directory download folder from selenium browser
+    destination = "D:\\/path/\\covid.png" #/path/ mean your program directory 
     shutil.move(path, destination)
     print(("[!] Move Data To Directory!"))
     return
