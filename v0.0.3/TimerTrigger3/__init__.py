@@ -43,7 +43,7 @@ def main(mytimer: func.TimerRequest) -> None:
 
     # line notify
     line_url = 'https://notify-api.line.me/api/notify'
-    line_token = 'HtWO4xLRZLpU32ty8VFo8gd759GkSx7CX9xV5hqgflS'
+    line_token = '*** LINE_TOKEN ***' #Get this token from https://notify-bot.line.me
     HEADERS = {'Authorization': 'Bearer ' + line_token}
     line_info_datetime = today.strftime("%d-%m-%Y" + '@' + "%H:%M")
     msg = line_info_datetime + " [INFO] Script Working!! : Microsoft Azure Serverless\nUser:bannawat_v@cmu.ac.th" 
