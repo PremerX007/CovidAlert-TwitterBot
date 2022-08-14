@@ -20,7 +20,7 @@ while(True):
     named_tuple = time.localtime()
     time_string = time.strftime("%H:%M:%S", named_tuple)
     status_time = time.strftime("%d/%m/%Y || %H:%M:%S", named_tuple)
-    while (time_string == "10:49:15"):
+    while (time_string == "08:00:00"):
         print("********************************************")
         print("   Script Start At " + status_time)
         print("********************************************")
