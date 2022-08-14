@@ -66,11 +66,12 @@ API.update_status(timeline)
 line_url = 'https://notify-api.line.me/api/notify'
 line_token = '*** LINE_TOKEN ***' #Get this token from https://notify-bot.line.me
 HEADERS = {'Authorization': 'Bearer ' + line_token}
-ine_info_datetime = today.strftime("%d-%m-%Y" + '@' + "%H:%M")
+line_info_datetime = today.strftime("%d-%m-%Y" + '@' + "%H:%M")
 msg = line_info_datetime + " [INFO] Script Working!! : Microsoft Azure Serverless\nUser:bannawat_v@cmu.ac.th" 
 response = requests.post(line_url,headers=HEADERS,params={"message": msg})
 logging.info(response)
 ```
 <img width="541" alt="ภาพประเภท PNG 2022-08-14 11_01_32" src="https://user-images.githubusercontent.com/39229888/184533766-82fe303f-afed-4e9b-9090-942ff80233fa.png">
+
 ## :pray: Bigthank for API Covid Data
 - [Department of Disease Control](https://covid19.ddc.moph.go.th/)
