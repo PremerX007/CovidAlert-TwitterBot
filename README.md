@@ -1,4 +1,5 @@
 # Covid Alert TwitterBot
+[![Code Quality: python](https://img.shields.io/lgtm/grade/python/g/PremerX007/Covid_Alert_TwitterBot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PremerX007/Covid_Alert_TwitterBot/context:python)
 
 ## :wave: Introduce
 :toolbox: **บอทกำลังอยู่ในช่วงการทดสอบ** :hammer_and_wrench: บน Microsoft Azure Function **(Serverless)**
@@ -25,11 +26,11 @@ selenium
 
 <img src ="https://user-images.githubusercontent.com/39229888/184527459-85e1ce93-666e-4f2f-ac9a-75ff4ae8abcf.png" />
 
-จากนั้นนำภาพมาทำภาพขาวดำและครอปภาพโดยใช้ [OpenCV](https://opencv.org/) เพื่อส่งต่อข้อมูลไปให้ [Pytesseract](https://github.com/tesseract-ocr/tesseract) ประมวลผลเป็นตัวเลข เก็บไว้ในตัวแปรเพื่อทำการ Tweet ต่อไปโดยที่โปรแกรมถูกตั้งเวลาการทำงานไว้ที่เวลา 8 โมงเช้าของทุกวัน
+จากนั้นนำภาพมาทำภาพขาวดำและครอปภาพโดยใช้ [**OpenCV**](https://opencv.org/) เพื่อส่งต่อข้อมูลไปให้ [**Pytesseract**](https://github.com/tesseract-ocr/tesseract) ประมวลผลเป็นตัวเลข เก็บไว้ในตัวแปรเพื่อทำการ Tweet ต่อไปโดยที่โปรแกรมถูกตั้งเวลาการทำงานไว้ที่เวลา 8 โมงเช้าของทุกวัน
 
 <img src ="https://user-images.githubusercontent.com/39229888/184527468-95c0cb89-98c8-4dc1-9f6e-15a64dbdaa97.png" />
 
-P.S. ในขณะนั้น API ของตัวเลขผู้ติดเชื้อและผู้เสียชีวิตจากโควิด-19 ของกรมควบคุมโรคยังไม่เสถียรและมีความช้าในด้านการอัพเดทข้อมูลแต่ละวันเป็นอย่างมาก เลยเลี่ยงที่จะใช้งาน
+**P.S. ในขณะนั้น API ของตัวเลขผู้ติดเชื้อและผู้เสียชีวิตจากโควิด-19 ของกรมควบคุมโรคยังไม่เสถียรและมีความช้าในด้านการอัพเดทข้อมูลแต่ละวันเป็นอย่างมาก เลยเลี่ยงที่จะใช้งาน**
 
 
 - 0.0.2
