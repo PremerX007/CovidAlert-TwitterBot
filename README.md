@@ -1,9 +1,11 @@
 # Covid Alert TwitterBot
+[![Twitter](https://img.shields.io/twitter/url?label=Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fcovidth_alert)](https://twitter.com/covidth_alert)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/PremerX007/Covid_Alert_TwitterBot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PremerX007/Covid_Alert_TwitterBot/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/PremerX007/Covid_Alert_TwitterBot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PremerX007/Covid_Alert_TwitterBot/context:python)
 
+## :toolbox: **บอทกำลังอยู่ในช่วงการทดสอบ** :hammer_and_wrench: บน Microsoft Azure Function **(Serverless)**
+
 # :wave: About
-:toolbox: **บอทกำลังอยู่ในช่วงการทดสอบ** :hammer_and_wrench: บน Microsoft Azure Function **(Serverless)**
 ตัวบอทสร้างมาเพื่อวัตถุประสงค์ในการแจ้งจำนวนผู้ติดเชื้อและผู้เสียชีวิตจากไวรัส SARS-CoV-2 ของประเทศไทยในแต่ละวัน 
 
 - [Twitter of @covidth_alert](https://twitter.com/covidth_alert)
