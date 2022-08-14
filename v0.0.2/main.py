@@ -12,7 +12,7 @@ print("[!] Connected!!")
 print("[**] Waiting for the right time...")
 
 
-
+## Request JSON
 url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
 r = requests.get(url).json()
 a = r[0]
