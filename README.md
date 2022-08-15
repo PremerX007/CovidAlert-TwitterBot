@@ -12,7 +12,7 @@
 
 <div style="text-align:center">
   <a href="https://twitter.com/covidth_alert">
-    <img src ="https://user-images.githubusercontent.com/39229888/183920557-1f2f21b4-a173-4961-977b-ed99775566c0.png" />
+    <img src ="https://user-images.githubusercontent.com/39229888/184621341-e6002c1f-a089-4ec5-ad1c-f8dda54298c1.jpg" />
   </a>
 </div>
 
@@ -34,6 +34,7 @@ selenium
 <img src ="https://user-images.githubusercontent.com/39229888/184527468-95c0cb89-98c8-4dc1-9f6e-15a64dbdaa97.png" />
 
 **P.S. ในขณะนั้น API ของตัวเลขผู้ติดเชื้อและผู้เสียชีวิตจากโควิด-19 ของกรมควบคุมโรคยังไม่เสถียรและมีความช้าในด้านการอัพเดทข้อมูลแต่ละวันเป็นอย่างมาก เลยเลี่ยงที่จะใช้งาน**
+
 **:exclamation: This version may not work in other environments if you don't config. (e.g. selenium, pytesseract)**
 
 ### - [v0.0.2](v0.0.2/)
