@@ -25,10 +25,10 @@ def main(mytimer: func.TimerRequest) -> None:
     data = requests.get(url).json()[0]
 
     # Get Tranding Hashtag in TH
-    woeid = 23424960
+    woeid = 23424960 # number of WOEID (Where On Earth IDentifier) of Thailand
     trends = API.get_place_trends(id = woeid)
-    rs = trends[0]["trends"]
-    hashtags = [trend['name'] for trend in rs if "#" in trend['name']]
+    result_trends = trends[0]["trends"]
+    hashtags = [trend['name'] for trend in result_trends if "#" in trend['name']]
 
     # TwitterUpdateStatus
     bangkok_tz = pytz.timezone("Asia/Bangkok")
