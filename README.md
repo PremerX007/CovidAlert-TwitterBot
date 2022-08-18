@@ -73,5 +73,14 @@ logging.info(response)
 ```
 <img width="541" alt="ภาพประเภท PNG 2022-08-14 11_01_32" src="https://user-images.githubusercontent.com/39229888/184533766-82fe303f-afed-4e9b-9090-942ff80233fa.png">
 
+* เพิ่มการหา Trending Hashtags ของประเทศไทย
+```python
+# Get Tranding Hashtag in TH
+woeid = 23424960 # number of WOEID (Where On Earth IDentifier) of Thailand
+trends = API.get_place_trends(id = woeid)
+result_trends = trends[0]["trends"]
+hashtags = [trend['name'] for trend in result_trends if "#" in trend['name']]
+```
+
 ## :pray: Bigthank for API Covid Data
 - [Department of Disease Control](https://covid19.ddc.moph.go.th/)
