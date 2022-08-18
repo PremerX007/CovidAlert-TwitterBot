@@ -3,7 +3,7 @@ import azure.functions as func
 import requests
 import tweepy
 import pytz
-import datetime
+from datetime import datetime
 
 
 def main(mytimer: func.TimerRequest) -> None:
@@ -33,7 +33,7 @@ def main(mytimer: func.TimerRequest) -> None:
 
     # TwitterUpdateStatus
     bangkok_tz = pytz.timezone("Asia/Bangkok")
-    today = datetime.datetime.now(bangkok_tz)
+    today = datetime.now(bangkok_tz)
     tm = today.strftime("%d/%m/%Y")
     ncase = str(("🚨 ติดเชื้อใหม่ " + str(a["new_case"]) + " คน ❗\n")*3)
     ndeath = str(("⚠ เสียชีวิต " + str(a["new_death"]) + " คน\n")*3)
