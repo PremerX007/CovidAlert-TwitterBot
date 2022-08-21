@@ -48,15 +48,15 @@ tweepy
 ```python
 # Request JSON
 url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
-data = requests.get(url).json()[0]
+data_all = requests.get(url).json()[0]
 
 # TwitterUpdateStatus
-bangkok_tz = pytz.timezone("Asia/Bangkok")
-time_now = datetime.now(bangkok_tz).strftime("%d/%m/%Y")
-daily_case = str(("🚨 ติดเชื้อใหม่ " + str(data["new_case"]) + " คน ❗\n")*3)
-daily_deaths = str(("⚠ เสียชีวิต " + str(data["new_death"]) + " คน\n")*3)
-timeline = str("📅 ณ วันที่ " + time_now + " 📅\n \n" + daily_case + daily_deaths + "#โควิดวันนี้ #โควิด19 " + hashtags[0] + " " + hashtags[1] + "\n \n" + "ddc.moph.go.th/covid19-dashboard")
+show_date = th_time.strftime("%d/%m/%Y")
+daily_case = str(("🚨 ติดเชื้อใหม่ " + str(data_all["new_case"]) + " คน ❗\n")*3)
+daily_deaths = str(("⚠ เสียชีวิต " + str(data_all["new_death"]) + " คน\n")*3)
+timeline = str("📅 ณ วันที่ " + show_date + " 📅\n \n" + daily_case + daily_deaths + "#โควิดวันนี้ #โควิด19 " + hashtags[0] + " " + hashtags[1] + "\n \n" + "ddc.moph.go.th/covid19-dashboard")
 API.update_status(timeline)
+logging.info("Twitter update status @%s", show_date)
 ```
 ### - [v0.0.3](v0.0.3/)
 เวอร์ชันนี้ใช้ตัวโปรแกรมจากเวอร์ชัน [v0.0.2](v0.0.2/) แต่นำไปรันบน Serverless ของ Azure ทำการ Config อะไรเล็กๆน้อยๆ
@@ -64,12 +64,12 @@ API.update_status(timeline)
 ```python
 # line notify
 line_url = 'https://notify-api.line.me/api/notify'
-line_token = '*** LINE_TOKEN ***' # Get this token from https://notify-bot.line.me
-HEADERS = {'Authorization': 'Bearer ' + line_token}
-line_info_timenow = datetime.now(bangkok_tz).strftime("%d-%m-%Y" + '@' + "%H:%M")
-msg = line_info_timenow + " [INFO] Script Working!! : Microsoft Azure Serverless\nUser:bannawat_v@cmu.ac.th" 
+HEADERS = {'Authorization': 'Bearer ' + api.LINE_TOKEN}
+line_info_timenow = th_time.strftime("%d-%m-%Y" + '@' + "%H:%M")
+msg = line_info_timenow + " [INFO] Script Working!! : Microsoft Azure Serverless" 
 response = requests.post(line_url,headers=HEADERS,params={"message": msg})
 logging.info(response)
+logging.info("LINE Notify : %s", response)
 ```
 <img width="541" alt="ภาพประเภท PNG 2022-08-14 11_01_32" src="https://user-images.githubusercontent.com/39229888/184533766-82fe303f-afed-4e9b-9090-942ff80233fa.png">
 
@@ -80,6 +80,22 @@ woeid = 23424960 # number of WOEID (Where On Earth IDentifier) of Thailand
 trends = API.get_place_trends(id = woeid)
 result_trends = trends[0]["trends"]
 hashtags = [trend['name'] for trend in result_trends if "#" in trend['name']]
+```
+* เพิ่ม logic ตรวจสอบว่าข้อมูลวันนี้ทวีตไปแล้วหรือยัง ถ้ายังให้ทำการทวีต แต่ถ้าทวีตไปแล้วจะไม่ทำการทวีตอีก
+**บางวัน API มีการอัพเดทที่ล่าช้า เมื่อตั้ง Timer ไว้อย่างเดียวแล้วไม่มีการเช็ค ตัวโปรแกรมอาจจะนำข้อมูลของวันก่อนหน้ามาทวีตได้**
+```python
+# Fecth Tweeted Timeline
+logging.info("[!] Fecthing Tweeted Timeline")
+data_tweets = API.user_timeline(user_id=api.TWITTER_ID, count=1)
+for tweet in data_tweets:
+  date_tweeted_fecth = str(tweet.created_at)[:-15]
+
+if data_all['txn_date'] == date_now and date_tweeted_fecth != date_now:
+  ### Work Process
+elif date_tweeted_fecth != date_now:
+  logging.info("Wait for new data from API.")
+else:
+  logging.info("Today has already tweeted data.")
 ```
 
 ## :pray: Bigthank for API Covid Data
