@@ -82,8 +82,6 @@ result_trends = trends[0]["trends"]
 hashtags = [trend['name'] for trend in result_trends if "#" in trend['name']]
 ```
 * เพิ่ม logic ตรวจสอบว่าข้อมูลวันนี้ทวีตไปแล้วหรือยัง ถ้ายังให้ทำการทวีต แต่ถ้าทวีตไปแล้วจะไม่ทำการทวีตอีก
-
-:grey_question::tired_face: บางวัน API มีการอัพเดทที่ล่าช้า เมื่อ**ตั้ง Timer ไว้อย่างเดียวแล้วไม่มีการเช็ค ตัวโปรแกรมอาจจะนำข้อมูลของวันก่อนหน้ามาทวีตได้**
 ```python
 # Fecth Tweeted Timeline
 logging.info("[!] Fecthing Tweeted Timeline")
@@ -98,6 +96,7 @@ elif date_tweeted_fecth != date_now:
 else:
   logging.info("Today has already tweeted data.")
 ```
+:grey_question::tired_face: บางวัน API มีการอัพเดทที่ล่าช้า เมื่อ**ตั้ง Timer ไว้อย่างเดียวแล้วไม่มีการเช็ค ตัวโปรแกรมอาจจะนำข้อมูลของวันก่อนหน้ามาทวีตได้**
 
 ## :pray: Bigthank for API Covid Data
 - [Department of Disease Control](https://covid19.ddc.moph.go.th/)
