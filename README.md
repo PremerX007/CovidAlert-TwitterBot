@@ -83,7 +83,7 @@ hashtags = [trend['name'] for trend in result_trends if "#" in trend['name']]
 ```
 * เพิ่ม logic ตรวจสอบว่าข้อมูลวันนี้ทวีตไปแล้วหรือยัง ถ้ายังให้ทำการทวีต แต่ถ้าทวีตไปแล้วจะไม่ทำการทวีตอีก
 
-**:grey_question::tired_face: บางวัน API มีการอัพเดทที่ล่าช้า เมื่อตั้ง Timer ไว้อย่างเดียวแล้วไม่มีการเช็ค ตัวโปรแกรมอาจจะนำข้อมูลของวันก่อนหน้ามาทวีตได้**
+:grey_question::tired_face: บางวัน API มีการอัพเดทที่ล่าช้า เมื่อ**ตั้ง Timer ไว้อย่างเดียวแล้วไม่มีการเช็ค ตัวโปรแกรมอาจจะนำข้อมูลของวันก่อนหน้ามาทวีตได้**
 ```python
 # Fecth Tweeted Timeline
 logging.info("[!] Fecthing Tweeted Timeline")
