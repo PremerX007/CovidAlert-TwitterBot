@@ -19,11 +19,11 @@ Twitter bot for daily reporting of SARS-CoV-2 cases and deaths in Thailand.
 ## :floppy_disk: Versions
 ### - [v0.0.1 (Outdated)](v0.0.1/)
 This version used this [``requirements``](v0.0.1/requirements.txt)
-```
-opencv-python
-pytesseract
-tweepy
-selenium
+```python
+opencv-python #Computer Vision
+pytesseract #Optical Character Recognition
+tweepy #Python lib for Twitter APIs
+selenium #Automates web browsers lib
 ```
 The process in this version uses this script [``scrshot.py``](v0.0.1/scrshot.py) to download data images from [Department of Disease Control](https://ddc.moph.go.th/covid19-dashboard/) website by using Selenium to work, you will get this image.
 
@@ -61,7 +61,7 @@ API.update_status(timeline)
 logging.info("Twitter update status @%s", show_date)
 ```
 ### - [v0.0.3](v0.0.3/)
-This version uses the program from the [previous version (v0.0.2)](v0.0.2/). However, bring it to run on the Microsoft Azure cloud and adapt some of the scripts to the environment required by the cloud. and developed this version until now, with various sub-feature updates such as
+This version uses the program from the [previous version (v0.0.2)](v0.0.2/). However, bring it to run on the Microsoft Azure cloud and modify some syntax in scripts to be compatible with the environment required by the cloud. and developed this version until now, with various sub-feature updates such as
 
 * LINE Notify has been added to notify you when the program starts. to check whether the program works properly or not.
 ```python
@@ -99,7 +99,7 @@ elif date_tweeted_fecth != date_now:
 else:
   logging.info("Today has already tweeted data.")
 ```
-:grey_question::tired_face: Recently, the API came back to update information late. Therefore, **the method of scheduling tweets at 8 a.m. was removed to prevent tweeting from the previous day's data.** and conditionally check the time directly with the API to get the data according to the correct date and time.
+:grey_question::tired_face: Recently, the API came back to update information late. Therefore, **the method of scheduling tweets at 8 a.m. was removed to prevent tweeting the previous day's data.** and conditionally check the time directly with the API to get the data according to the correct date and time.
 
 ## :pray: Bigthank for DDC API Covid Data TH
 - [Department of Disease Control](https://covid19.ddc.moph.go.th/)
