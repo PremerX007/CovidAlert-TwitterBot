@@ -43,6 +43,8 @@ def main(mytimer: func.TimerRequest) -> None:
                 line_notify("🚩[WARNING] Unverified HTTPS request to host 'covid19.ddc.moph.go.th' [SSLCert not verify]", stickerPackageId=789, stickerId=10877)
     except Exception as error_msg:
         logging.error("[REQUESTS] Unable to connect DDC MOPH APIs | Error >> %s" ,str(error_msg))
+        line_notify("🚨[ALERT] Unable to connect DDC MOPH APIs", stickerPackageId=11539, stickerId=52114142)
+        line_notify("🚨[ERROR] %s"%error_msg, stickerPackageId=11539, stickerId=52114142)
     else: 
         # Work process
         if data_all['txn_date'] == date_now and date_tweeted_fecth != date_now:
