@@ -63,18 +63,17 @@ logging.info("Twitter update status @%s", show_date)
 ### - [v0.0.3](v0.0.3/)
 This version uses the program from the [previous version (v0.0.2)](v0.0.2/). However, bring it to run on the Microsoft Azure cloud and modify some syntax in scripts to be compatible with the environment required by the cloud. and developed this version until now, with various sub-feature updates such as
 
-* LINE Notify has been added to notify you when the program starts. to check whether the program works properly or not.
+* [LINE Notify](v0.0.3/shared/linenoti.py) has been added to notify when the program starts. to check if the program is working properly or if there are any errors
 ```python
 # line notify
-line_url = 'https://notify-api.line.me/api/notify'
-HEADERS = {'Authorization': 'Bearer ' + api.LINE_TOKEN}
-line_info_timenow = th_time.strftime("%d-%m-%Y" + '@' + "%H:%M")
-msg = line_info_timenow + " [INFO] Script Working!! : Microsoft Azure Serverless" 
-response = requests.post(line_url,headers=HEADERS,params={"message": msg})
-logging.info(response)
-logging.info("LINE Notify : %s", response)
+def line_notify(msg, **kwangs: int):
+    line_url = 'https://notify-api.line.me/api/notify'
+    HEADERS = {'Authorization': 'Bearer ' + api.LINE_TOKEN}
+    response = requests.post(line_url,headers=HEADERS,params={"message": msg,"stickerPackageId": kwangs.get('stickerPackageId'),"stickerId": kwangs.get('stickerId')})
+    return logging.info("[LINE NOTIFY] %s", response)
 ```
-<img src="https://user-images.githubusercontent.com/39229888/186081650-1f51678c-9e98-4f0e-ac52-c36f7b977e91.jpg"/>
+<img width="562" alt="20220829_121051332_iOS" src="https://user-images.githubusercontent.com/39229888/187198236-95d0a185-2323-423e-b666-355a8ee2b7c0.png">
+<img width="512" alt="20220829_120933799_iOS" src="https://user-images.githubusercontent.com/39229888/187198250-f6947adc-1aaa-4a0b-ad42-d74fad94ace5.png">
 
 * Add Thailand Trending Hashtags to increase the visibility of tweets.
 ```python
