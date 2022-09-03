@@ -3,14 +3,12 @@ import azure.functions as func
 import requests
 import tweepy
 import pytz
+from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
 from ..shared import api
 from ..shared.linenoti import line_notify
 
-def main(mytimer: func.TimerRequest) -> None:
-    if mytimer.past_due:
-        logging.info('The timer is past due!')
-
+def main() -> None:
     # Setting Time&Date
     bangkok_tz = pytz.timezone("Asia/Bangkok")
     th_time = datetime.now(bangkok_tz)
@@ -35,17 +33,17 @@ def main(mytimer: func.TimerRequest) -> None:
         try:
             data_all = requests.get(url).json()[0]
             logging.info("[REQUESTS] Data received.")
-        except:
+        except BaseException:
             requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
             data_all = requests.get(url, verify=False).json()[0]
             logging.warning("[REQUESTS] Data (not verify SSL) received")
             if data_all['txn_date'] == date_now and date_tweeted_fecth != date_now:
                 line_notify("🚩[WARNING] Unverified HTTPS request to host 'covid19.ddc.moph.go.th' [SSLCert not verify]", stickerPackageId=789, stickerId=10877)
-    except Exception as error_msg:
-        logging.error("[REQUESTS] Unable to connect DDC MOPH APIs | Error >> %s" ,str(error_msg))
-        line_notify("🚨[ALERT] Unable to connect DDC MOPH APIs", stickerPackageId=11539, stickerId=52114142)
-        line_notify("🚨[ERROR] %s"%error_msg, stickerPackageId=11539, stickerId=52114142)
-    else: 
+    except BaseException as error_msg:
+        logging.error(f"[REQUESTS] Unable to connect DDC MOPH APIs | Error >> {type(error_msg)} {error_msg}")
+        line_notify("🚨[ALERT] Unable to connect DDC MOPH APIs")
+        line_notify(f"🚨[ERROR] {type(error_msg)} {error_msg}", stickerPackageId=11539, stickerId=52114142)
+    else:
         # Work process
         if data_all['txn_date'] == date_now and date_tweeted_fecth != date_now:
 
@@ -62,7 +60,7 @@ def main(mytimer: func.TimerRequest) -> None:
             daily_deaths = str(("⚠ เสียชีวิต " + str(data_all["new_death"]) + " คน\n")*3)
             timeline = str("📅 ณ วันที่ " + show_date + " 📅\n \n" + daily_case + daily_deaths + "#โควิดวันนี้ #โควิด19 " + hashtags[0] + " " + hashtags[1] + "\n \n" + "ddc.moph.go.th/covid19-dashboard")
             API.update_status(timeline)
-            logging.info("[TWEEPY] Twitter tweeted status at %s", show_date)
+            logging.info(f"[TWEEPY] Twitter tweeted status at {show_date}")
             
             # line notify
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
