@@ -5,7 +5,7 @@
 
 ### :loudspeaker: **In the process of testing the system** :hammer_and_wrench: on Microsoft Azure :toolbox:
 
-# :wave: About
+## :wave: About
 Twitter bot for daily reporting of SARS-CoV-2 cases and deaths in Thailand.
 
 - [Twitter of @covidth_alert](https://twitter.com/covidth_alert)
@@ -37,6 +37,7 @@ Then import the image to make a black and white image, crop it using [**OpenCV**
 
 **:exclamation: This version may not work in other environments if you don't config. (e.g. selenium, pytesseract)**
 
+---
 ### - [v0.0.2](v0.0.2/)
 This version used this [``requirements``](v0.0.2/requirements.txt)
 ```
@@ -60,10 +61,12 @@ timeline = str("📅 ณ วันที่ " + show_date + " 📅\n \n" + daily
 API.update_status(timeline)
 logging.info("Twitter update status @%s", show_date)
 ```
-### - [v0.0.3](v0.0.3/)
+
+---
+### - [v0.0.3 (Lastest)](v0.0.3/)
 This version uses the program from the [previous version (v0.0.2)](v0.0.2/). However, bring it to run on the Microsoft Azure cloud and modify some syntax in scripts to be compatible with the environment required by the cloud. and developed this version until now, with various sub-feature updates such as
 
-* [LINE Notify](v0.0.3/shared/linenoti.py) has been added to notify when the program starts. to check if the program is working properly or if there are any errors
+> * [LINE Notify](v0.0.3/shared/linenoti.py) has been added to notify when the program starts. to check if the program is working properly or if there are any errors
 ```python
 # line notify
 def line_notify(msg, **kwangs: int):
@@ -75,7 +78,7 @@ def line_notify(msg, **kwangs: int):
 <img width="562" alt="20220829_121051332_iOS" src="https://user-images.githubusercontent.com/39229888/187198236-95d0a185-2323-423e-b666-355a8ee2b7c0.png">
 <img width="512" alt="20220829_120933799_iOS" src="https://user-images.githubusercontent.com/39229888/187198250-f6947adc-1aaa-4a0b-ad42-d74fad94ace5.png">
 
-* Add Thailand Trending Hashtags to increase the visibility of tweets.
+> * Add Thailand Trending Hashtags to increase the visibility of tweets.
 ```python
 # Get Tranding Hashtag in TH
 woeid = 23424960 # number of WOEID (Where On Earth IDentifier) of Thailand
@@ -83,7 +86,7 @@ trends = API.get_place_trends(id = woeid)
 result_trends = trends[0]["trends"]
 hashtags = [trend['name'] for trend in result_trends if "#" in trend['name']]
 ```
-* I added checking if today's information has been tweeted or not. If not, make a tweet. But if I have already tweeted, I will not tweet again to prevent retweeting the same information.
+> * I added checking if today's information has been tweeted or not. If not, make a tweet. But if I have already tweeted, I will not tweet again to prevent retweeting the same information.
 ```python
 # Fecth Tweeted Timeline
 logging.info("[!] Fecthing Tweeted Timeline")
