@@ -31,21 +31,25 @@ def main() -> None:
     url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
     try: # Check The APIs is accessible or not.
         try:
-            data_all = requests.get(url).json()[0]
+            data = requests.get(url).json()[0]
             logging.info("[REQUESTS] Data received.")
-        except BaseException:
+        except KeyError:
+            data = requests.get(url).json()
+            logging.info("[REQUESTS] not the required information.")
+            line_notify(f"🚨[ERROR] Pls Check APIs -> {str(data)}", stickerPackageId=11539, stickerId=52114142)
+        except Exception:
             requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
-            data_all = requests.get(url, verify=False).json()[0]
+            data = requests.get(url, verify=False).json()[0]
             logging.warning("[REQUESTS] Data (not verify SSL) received")
-            if data_all['txn_date'] == date_now and date_tweeted_fecth != date_now:
+            if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
                 line_notify("🚩[WARNING] Unverified HTTPS request to host 'covid19.ddc.moph.go.th' [SSLCert not verify]", stickerPackageId=789, stickerId=10877)
-    except BaseException as error_msg:
-        logging.error(f"[REQUESTS] Unable to connect DDC MOPH APIs | Error >> {type(error_msg)} {error_msg}")
+    except Exception as exc:
+        logging.error(f"[REQUESTS] Unable to connect DDC MOPH APIs | Error >> {type(exc)} {exc}")
         line_notify("🚨[ALERT] Unable to connect DDC MOPH APIs")
-        line_notify(f"🚨[ERROR] {type(error_msg)} {error_msg}", stickerPackageId=11539, stickerId=52114142)
+        line_notify(f"🚨[ERROR] {type(exc)} {exc}", stickerPackageId=11539, stickerId=52114142)
     else:
         # Work process
-        if data_all['txn_date'] == date_now and date_tweeted_fecth != date_now:
+        if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
 
             # Get Tranding Hasttag
             logging.info("[TWEEPY] Get Tranding Hasttag")
@@ -56,8 +60,8 @@ def main() -> None:
 
             # TwitterUpdateStatus
             show_date = th_time.strftime("%d/%m/%Y")
-            daily_case = str(("🚨 ติดเชื้อใหม่ " + str(data_all["new_case"]) + " คน ❗\n")*3)
-            daily_deaths = str(("⚠ เสียชีวิต " + str(data_all["new_death"]) + " คน\n")*3)
+            daily_case = str(("🚨 ติดเชื้อใหม่ " + str(data["new_case"]) + " คน ❗\n")*3)
+            daily_deaths = str(("⚠ เสียชีวิต " + str(data["new_death"]) + " คน\n")*3)
             timeline = str("📅 ณ วันที่ " + show_date + " 📅\n \n" + daily_case + daily_deaths + "#โควิดวันนี้ #โควิด19 " + hashtags[0] + " " + hashtags[1] + "\n \n" + "ddc.moph.go.th/covid19-dashboard")
             API.update_status(timeline)
             logging.info(f"[TWEEPY] Twitter tweeted status at {show_date}")
