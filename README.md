@@ -63,7 +63,7 @@ logging.info("Twitter update status @%s", show_date)
 ```
 
 ---
-### - [v0.0.3 (Lastest)](v0.0.3/)
+### - [v0.0.3](v0.0.3/)
 This version uses the program from the [previous version (v0.0.2)](v0.0.2/). However, bring it to run on the Microsoft Azure cloud and modify some syntax in scripts to be compatible with the environment required by the cloud. and developed this version until now, with various sub-feature updates such as
 
 > * [LINE Notify](v0.0.3/shared/linenoti.py) has been added to notify when the program starts. to check if the program is working properly or if there are any errors
@@ -103,5 +103,13 @@ else:
 ```
 :grey_question::tired_face: Recently, the API came back to update information late. Therefore, **the method of scheduling tweets at 8 a.m. was removed to prevent tweeting the previous day's data.** and conditionally check the time directly with the API to get the data according to the correct date and time.
 
+---
+### - [v0.0.4 (Lastest)](v0.0.4/)
+* added tweets of the number of infected people in each province and each region.
+<img width="512" alt="20220904_151936000_iOS" src ="https://user-images.githubusercontent.com/39229888/188323305-b96b1241-a9e5-4354-8b2e-c3b7acbf03c2.jpg" />
+
+* modify the structure of the program from previous versions by creating and calling separate functions. to make it easier to edit and read (maybe).
+
+---
 ## :pray: Bigthank for DDC API Covid Data TH
 - [Department of Disease Control](https://covid19.ddc.moph.go.th/)
