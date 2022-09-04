@@ -102,6 +102,27 @@ else:
   logging.info("Today has already tweeted data.")
 ```
 :grey_question::tired_face: Recently, the API came back to update information late. Therefore, **the method of scheduling tweets at 8 a.m. was removed to prevent tweeting the previous day's data.** and conditionally check the time directly with the API to get the data according to the correct date and time.
+> * added exception catching When the MOPH API is down, it sends a notification to LINE.
+```python
+try: # Check The APIs is accessible or not.
+  try:
+    data = requests.get(url).json()[0]
+    logging.info("[REQUESTS] Data received.")
+  except KeyError:
+    data = requests.get(url).json()
+    logging.info("[REQUESTS] not the required information.")
+    line_notify(f"🚨[ERROR] Pls Check APIs -> {str(data)}", stickerPackageId=11539, stickerId=52114142)
+  except Exception:
+    requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
+    data = requests.get(url, verify=False).json()[0]
+    logging.warning("[REQUESTS] Data (not verify SSL) received")
+    if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
+      line_notify("🚩[WARNING] Unverified HTTPS request to host 'covid19.ddc.moph.go.th' [SSLCert not verify]", stickerPackageId=789, stickerId=10877)
+except Exception as exc:
+  logging.error(f"[REQUESTS] Unable to connect DDC MOPH APIs | Error >> {type(exc)} {exc}")
+  line_notify("🚨[ALERT] Unable to connect DDC MOPH APIs")
+  line_notify(f"🚨[ERROR] {type(exc)} {exc}", stickerPackageId=11539, stickerId=52114142)
+```
 
 ---
 ### - [v0.0.4 (Lastest)](v0.0.4/)
