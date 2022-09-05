@@ -19,39 +19,36 @@ def IndexRegionName(regions : str):
     return index[regions]
 
 def SubReportOverchar(regions : str,api,data,time):
+    index_af = IndexProvince(regions)
+    index_be = [index_af.pop(0) for i in range(int(len(index_af)/2))]
+    region_name = IndexRegionName(regions)
+    show_date = time.strftime("%d/%m/%Y")
+    hashtags_msg = str("#โควิดวันนี้ #โควิด19")
+    header = str(f'🦠 จำนวนผู้ติดเชื้อใหม่ *{region_name}*\n')
+
+    info = str('')
+    for i in range(len(index_be)): #1
+        info = info + str(f'{i+1}.{data[index_be[i]]["province"]} {data[index_be[i]]["new_case"]} คน\n')
+    timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}{info}\n{hashtags_msg}")
     try:
-        index_af = IndexProvince(regions)
-        index_be = [index_af.pop(0) for i in range(int(len(index_af)/2))]
-        region_name = IndexRegionName(regions)
-        hashtags_msg = str("#โควิดวันนี้ #โควิด19")
-        header = str(f'🦠 จำนวนผู้ติดเชื้อใหม่ *{region_name}*\n')
-        info = str('')
-        for i in range(len(index_be)):
-            info = info + str(f'{i+1}.{data[index_be[i]]["province"]} {data[index_be[i]]["new_case"]} คน\n')
-        show_date = time.strftime("%d/%m/%Y")
-        timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}{info}\n{hashtags_msg}")
         tweet_msg(timeline,api)
-        info = str('')
-        for i in range(len(index_af)):
-            info = info + str(f'{i+len(index_af)+1}.{data[index_af[i]]["province"]} {data[index_af[i]]["new_case"]} คน\n')
-        timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}(*ต่อ)\n{info}\n{hashtags_msg}")
-        tweet_msg(timeline,api,reply_id=FecthLastestTweet(api))
     except:
-        index_af = IndexProvince(regions)
-        index_be = [index_af.pop(0) for i in range(int(len(index_af)/2))]
-        region_name = IndexRegionName(regions)
         hashtags_msg = str("#โควิดวันนี้")
         header = str(f'🦠 ติดเชื้อใหม่วันนี้ >{region_name}\n')
-        info = str('')
-        for i in range(len(index_be)):
-            info = info + str(f'{i+1}.{data[index_be[i]]["province"]} {data[index_be[i]]["new_case"]} คน\n')
         timeline = str(f"{header}{info}{hashtags_msg}")
         tweet_msg(timeline,api)
+    finally:
         info = str('')
-        for i in range(len(index_af)):
+        for i in range(len(index_af)): #2
             info = info + str(f'{i+len(index_af)+1}.{data[index_af[i]]["province"]} {data[index_af[i]]["new_case"]} คน\n')
-        timeline = str(f"{header}{info}{hashtags_msg}")
-        tweet_msg(timeline,api,reply_id=FecthLastestTweet(api))
+        timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}(*ต่อ)\n{info}\n{hashtags_msg}")
+        try:
+            tweet_msg(timeline,api,reply_id=FecthLastestTweet(api))
+        except:
+            hashtags_msg = str("#โควิดวันนี้")
+            header = str(f'🦠 ติดเชื้อใหม่วันนี้ >{region_name}\n')
+            timeline = str(f"{header}{info}{hashtags_msg}")
+            tweet_msg(timeline,api,reply_id=FecthLastestTweet(api))
 
 def SubReport(regions : str,api,data,time):
     index = IndexProvince(regions)
