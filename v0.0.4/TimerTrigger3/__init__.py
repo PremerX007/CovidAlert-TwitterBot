@@ -55,6 +55,3 @@ def main(covidth : func.TimerRequest) -> None:
             logging.info("[IDLE] Wait for new data from API.")
         else:
             logging.info("[IDLE] Today has already tweeted data.")
-
-if __name__ == '__main__':
-    main()
