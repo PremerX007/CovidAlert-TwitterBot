@@ -20,11 +20,10 @@ def FecthLastestTweet(api, func : str = None): # Fecth Tweeted Timeline
     logging.info("[FecthLastestTweet] Fecthing Tweeted Timeline")
     user_id = 1419691747714605057
     data_tweets = api.user_timeline(user_id=user_id, count=1)
-    if func=='date':
-        for tweet in data_tweets:
+    for tweet in data_tweets:
+        if func=='date':
             index = str(tweet.created_at)[:-15]
-    else:
-        for tweet in data_tweets:
+        else:
             index = int(tweet.id)
     return index
 
