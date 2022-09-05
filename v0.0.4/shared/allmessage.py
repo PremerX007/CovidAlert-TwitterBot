@@ -32,7 +32,7 @@ def SubReportOverchar(regions : str,api,data,time):
     timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}{info}\n{hashtags_msg}")
     try:
         tweet_msg(timeline,api)
-    except:
+    except Exception:
         hashtags_msg = str("#โควิดวันนี้")
         header = str(f"🦠 ติดเชื้อใหม่วันนี้ >{region_name}\n")
         timeline = str(f"{header}{info}{hashtags_msg}")
@@ -44,7 +44,7 @@ def SubReportOverchar(regions : str,api,data,time):
         timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}(*ต่อ)\n{info}\n{hashtags_msg}")
         try:
             tweet_msg(timeline,api,reply_id=FecthLastestTweet(api))
-        except:
+        except Exception:
             hashtags_msg = str("#โควิดวันนี้")
             header = str(f"🦠 ติดเชื้อใหม่วันนี้ >{region_name}\n")
             timeline = str(f"{header}{info}{hashtags_msg}")
