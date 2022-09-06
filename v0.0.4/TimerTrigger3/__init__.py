@@ -27,7 +27,7 @@ def main(covidth : func.TimerRequest) -> None:
     try: # Check The APIs is accessible or not.
         try:
             data = requests.get(url).json()[0]
-            data_0 = requests.get(url_0).json()
+            data_province = requests.get(url_0).json()
             logging.info("[REQUESTS] Data received.")
         except KeyError:
             data = requests.get(url).json()
@@ -36,7 +36,7 @@ def main(covidth : func.TimerRequest) -> None:
         except Exception:
             requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
             data = requests.get(url, verify=False).json()[0]
-            data_0 = requests.get(url_0, verify=False).json()
+            data_province = requests.get(url_0, verify=False).json()
             logging.warning("[REQUESTS] Data (not verify SSL) received")
             if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
                 line_notify("🚩[WARNING] Unverified HTTPS request to host 'covid19.ddc.moph.go.th' [SSLCert not verify]", stickerPackageId=789, stickerId=10877)
@@ -47,7 +47,7 @@ def main(covidth : func.TimerRequest) -> None:
     else:
         # Work process
         if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
-            ProvinceReport(api,data=data_0,time=th_time)
+            ProvinceReport(api,data=data_province,time=th_time)
             OverallDaliyReport(api,data=data,time=th_time)
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
             line_notify(f"✅[INFO] Tweeted !! at{line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
