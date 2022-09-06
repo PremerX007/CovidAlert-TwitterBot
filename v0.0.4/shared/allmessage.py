@@ -2,13 +2,11 @@ import logging
 from ..shared.twitter import tweet_msg
 from ..shared.twitter import FecthLastestTweet
 
-def IndexProvince(regions : str):
-    index = {'north' : [70,71,46,47,76,31,23,75,67,14], 
+index_data = {'north' : [70,71,46,47,76,31,23,75,67,14], 
     'northeast' : [65,24,25,10,3,5,74,37,38,17,18,63,62,41,49,48,60,69,66,40],
     'central' : [1,30,26,21,16,52,64,9,45,53,54,55,57,58,15,2,27,44,72,61,34,35,4,73,20,68],
     'east' : [6,7,8,13,28,43,56],
     'south' : [0,11,12,19,22,29,32,33,36,39,42,50,51,59]} 
-    return index[regions]
 
 def IndexRegionName(regions : str):
     index = {'north' : '\u0e20\u0e32\u0e04\u0e40\u0e2b\u0e19\u0e37\u0e2d', 
@@ -18,49 +16,36 @@ def IndexRegionName(regions : str):
     'south' : '\u0e20\u0e32\u0e04\u0e43\u0e15\u0e49'}
     return index[regions]
 
-def SubReportOverchar(regions : str,api,data,time):
-    index_af = IndexProvince(regions)
-    index_be = [index_af.pop(0) for i in range(int(len(index_af)/2))]
-    region_name = IndexRegionName(regions)
-    show_date = time.strftime("%d/%m/%Y")
-    hashtags_msg = str("#โควิดวันนี้ #โควิด19")
-    header = str(f"🦠 จำนวนผู้ติดเชื้อใหม่ *{region_name}*\n")
+def SortIndex(data):
+    def sort(k):
+        return data[k]['new_case']
 
-    info = str("")
-    for i in range(len(index_be)): #1
-        info = info + str(f"{i+1}.{data[index_be[i]]['province']} {data[index_be[i]]['new_case']} คน\n")
-    timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}{info}\n{hashtags_msg}")
-    try:
-        tweet_msg(timeline,api)
-    except Exception:
-        hashtags_msg = str("#โควิดวันนี้")
-        header = str(f"🦠 ติดเชื้อใหม่วันนี้ >{region_name}\n")
-        timeline = str(f"{header}{info}{hashtags_msg}")
-        tweet_msg(timeline,api)
-    finally:
+    for i in index_data:
+        index_data[i].sort(reverse=True,key=sort)
+
+def SubReport(api,data,time):
+    hashtags_msg = str("#โควิดวันนี้ #โควิด19")
+    for region in index_data:
+        index = index_data[region]
+        region_name = IndexRegionName(region)
+        header = str(f"🦠 จำนวนผู้ติดเชื้อใหม่ >> {region_name}")
         info = str("")
-        for i in range(len(index_af)): #2
-            info = info + str(f"{i+len(index_af)+1}.{data[index_af[i]]['province']} {data[index_af[i]]['new_case']} คน\n")
-        timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}(*ต่อ)\n{info}\n{hashtags_msg}")
-        try:
-            tweet_msg(timeline,api,reply_id=FecthLastestTweet(api))
-        except Exception:
-            hashtags_msg = str("#โควิดวันนี้")
-            header = str(f"🦠 ติดเชื้อใหม่วันนี้ >{region_name}\n")
-            timeline = str(f"{header}{info}{hashtags_msg}")
-            tweet_msg(timeline,api,reply_id=FecthLastestTweet(api))
+        show_date = time.strftime("%d/%m/%Y")
+        for i in range(len(index)):
+            info = info + str(f"{i+1}.{data[index[i]]['province']} {data[index[i]]['new_case']} คน\n")
+            if (i+1)%7 == 0: # Split 7 choice per tweet
+                if i > 7:
+                    timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
+                    tweet_msg(msg=timeline,api=api,reply_id=FecthLastestTweet(api=api))
+                else:
+                    timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}\n{info}\n{hashtags_msg}")
+                    tweet_msg(msg=timeline,api=api)
+                info = str("")
+                continue
 
-def SubReport(regions : str,api,data,time):
-    index = IndexProvince(regions)
-    region_name = IndexRegionName(regions)
-    hashtags_msg = str("#โควิดวันนี้ #โควิด19")
-    header = str(f"🦠 จำนวนผู้ติดเชื้อใหม่ *{region_name}*\n")
-    info = str("")
-    for i in range(len(index)):
-        info = info + str(f"{i+1}.{data[index[i]]['province']} {data[index[i]]['new_case']} คน\n")
-    show_date = time.strftime("%d/%m/%Y")
-    timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header}{info}\n{hashtags_msg}")
-    tweet_msg(timeline,api)
+            if (i+1) == (len(index)): # Tweet remain data in index
+                timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
+                tweet_msg(msg=timeline,api=api,reply_id=FecthLastestTweet(api=api))
 
 def OverallDaliyReport(api,data,time):
     # Get Tranding Hasttag
@@ -81,11 +66,8 @@ def OverallDaliyReport(api,data,time):
     logging.info("[OverallDaliyReport] OverallDaliyReport func complete!")
 
 def ProvinceReport(api,data,time):
-    SubReport('north',api,data,time)
-    SubReportOverchar('northeast',api,data,time)
-    SubReportOverchar('central',api,data,time)
-    SubReport('east',api,data,time)
-    SubReportOverchar('south',api,data,time)
+    SortIndex(data)
+    SubReport(api,data,time)
     logging.info("[ProvinceReport] ProvinceReport func complete!")
 
 # if __name__ == '__main__':
