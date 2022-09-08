@@ -50,7 +50,7 @@ def main(covidth : func.TimerRequest) -> None:
             ProvinceReport(api,data=data_province,time=th_time)
             OverallDaliyReport(api,data=data,time=th_time)
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
-            line_notify(f"✅[INFO] Tweeted !! at{line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
+            line_notify(f"✅[INFO] Tweeted !! at {line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
         elif date_tweeted_fecth != date_now:
             logging.info("[IDLE] Wait for new data from API.")
         else:
