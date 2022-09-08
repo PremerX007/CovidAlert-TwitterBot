@@ -47,7 +47,7 @@ def SubReport(api,data,time):
                 timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
                 tweet_msg(msg=timeline,api=api,reply_id=FecthLastestTweet(api=api))
 
-def OverallDaliyReport(api,data,time):
+def OverallDaliyReport(api,data,data_total,time):
     # Get Tranding Hasttag
     logging.info("[OverallDaliyReport] Get Tranding Hasttag")
     woeid = 23424960
@@ -57,11 +57,15 @@ def OverallDaliyReport(api,data,time):
 
     # TwitterUpdateStatus
     show_date = time.strftime("%d/%m/%Y")
+    hashtags_msg = str(f"#โควิดวันนี้ #โควิด19 {hashtags[0]} {hashtags[1]}\n")
     daily_case = str(f"🚨 ติดเชื้อใหม่ {data['new_case']} คน\n")
     daily_deaths = str(f"⚠ เสียชีวิต {data['new_death']} คน\n")
     daily_recovered = str(f"💚 รักษาหายแล้ว {data['new_recovered']} คน\n")
-    hashtags_msg = str(f"#โควิดวันนี้ #โควิด19 {hashtags[0]} {hashtags[1]}\n\n")
-    timeline = str(f"📅 ณ วันที่ {show_date} 📅\n\n{daily_case}{daily_deaths}{daily_recovered}{hashtags_msg}ddc.moph.go.th/covid19-dashboard")
+    
+    total_case = str(f"> ติดเชื้อ {data_total['total_case']-2223435} คน\n")
+    total_deaths = str(f"> เสียชีวิต {data_total['total_death']-21698} คน\n")
+    total_recovered = str(f"> รักษาหาย {data_total['total_recovered']-2168494} คน\n")
+    timeline = str(f"📅 ณ วันที่ {show_date} 📅\n\n{daily_case}{daily_deaths}{daily_recovered}\n🦠 ยอดสะสมตั้งแต่ต้นปี 🏥\n{total_case}{total_deaths}{total_recovered}{hashtags_msg}ddc.moph.go.th/covid19-dashboard")
     tweet_msg(timeline,api)
     logging.info("[OverallDaliyReport] OverallDaliyReport func complete!")
 
