@@ -16,11 +16,11 @@ def APIAuth(): # API Auth
     logging.info("[APIAuth] Connected!!")
     return api
 
-def FecthLastestTweet(api, func : str = None): # Fecth Tweeted Timeline
+def FecthLastestTweet(api, func : bool = False): # Fecth Tweeted Timeline
     user_id = 1419691747714605057
     data_tweets = api.user_timeline(user_id=user_id, count=1)
     for tweet in data_tweets:
-        if func=='date':
+        if func:
             logging.info("[FecthLastestTweet] Fecthing Tweeted Timeline")
             index = str(tweet.created_at)[:-15]
         else:
