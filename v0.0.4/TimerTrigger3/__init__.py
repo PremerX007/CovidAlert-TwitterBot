@@ -19,7 +19,7 @@ def main(covidth : func.TimerRequest) -> None:
 
     # Twiiter
     api = APIAuth()
-    date_tweeted_fecth = FecthLastestTweet(api,func='date')
+    date_tweeted_fecth = FecthLastestTweet(api,func=True)
     
     # Get Data From MOPH API
     url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
