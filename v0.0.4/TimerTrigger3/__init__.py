@@ -5,7 +5,7 @@ import azure.functions as func
 from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
 from ..shared.twitter import APIAuth, FecthLastestTweet
-from ..shared.allmessage import OverallDaliyReport, ProvinceReport
+from ..shared.allmessage import OverallDaliyReport, SubReport
 from ..shared.linenoti import line_notify
 
 def main(covidth : func.TimerRequest) -> None:
@@ -50,7 +50,7 @@ def main(covidth : func.TimerRequest) -> None:
     else:
         # Work process
         if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
-            ProvinceReport(api=api, data=data_province, time=th_time)
+            SubReport(api=api, data=data_province, time=th_time)
             OverallDaliyReport(api=api, data=data, data_total=data_total, time=th_time)
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
             line_notify(f"✅[INFO] Tweeted !! at {line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
