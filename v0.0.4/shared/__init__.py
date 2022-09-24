@@ -1,1 +1,1 @@
-__all__ = ('linenoti','twitter','allmessage')
+__all__ = ('linenoti','twitter','allmessage','provincepart')
