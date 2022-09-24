@@ -1,12 +1,9 @@
 import logging
 from ..shared.twitter import tweet_msg
 from ..shared.twitter import FecthLastestTweet
+from ..shared.provincepart import province_part
 
-index_data = {'north' : [70,71,46,47,76,31,23,75,67,14], 
-    'northeast' : [65,24,25,10,3,5,74,37,38,17,18,63,62,41,49,48,60,69,66,40],
-    'central' : [1,30,26,21,16,52,64,9,45,53,54,55,57,58,15,2,27,44,72,61,34,35,4,73,20,68],
-    'east' : [6,7,8,13,28,43,56],
-    'south' : [0,11,12,19,22,29,32,33,36,39,42,50,51,59]} 
+index_data = province_part()
 
 def IndexRegionName(regions : str):
     index = {'north' : '\u0e20\u0e32\u0e04\u0e40\u0e2b\u0e19\u0e37\u0e2d', 
@@ -15,13 +12,6 @@ def IndexRegionName(regions : str):
     'east' : '\u0e20\u0e32\u0e04\u0e15\u0e30\u0e27\u0e31\u0e19\u0e2d\u0e2d\u0e01',
     'south' : '\u0e20\u0e32\u0e04\u0e43\u0e15\u0e49'}
     return index[regions]
-
-def SortIndex(data):
-    def sort(k):
-        return data[k]['new_case']
-
-    for i in index_data:
-        index_data[i].sort(reverse=True,key=sort)
 
 def SubReport(api,data,time):
     hashtags_msg = str("#โควิดวันนี้ #โควิด19")
@@ -46,6 +36,8 @@ def SubReport(api,data,time):
             if (i+1) == (len(index)): # Tweet remain data in index
                 timeline = str(f"📅 ณ วันที่ {show_date} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
                 tweet_msg(msg=timeline,api=api,reply_id=FecthLastestTweet(api=api))
+                
+    logging.info("[ProvinceReport] ProvinceReport func complete!")
 
 def OverallDaliyReport(api,data,data_total,time):
     # Get Tranding Hasttag
@@ -68,11 +60,6 @@ def OverallDaliyReport(api,data,data_total,time):
     timeline = str(f"📅 ณ วันที่ {show_date} 📅\n\n{daily_case}{daily_deaths}{daily_recovered}\n🦠 ยอดสะสมตั้งแต่ต้นปี 🏥\n{total_case}{total_deaths}{total_recovered}{hashtags_msg}ddc.moph.go.th/covid19-dashboard")
     tweet_msg(timeline,api)
     logging.info("[OverallDaliyReport] OverallDaliyReport func complete!")
-
-def ProvinceReport(api,data,time):
-    SortIndex(data)
-    SubReport(api,data,time)
-    logging.info("[ProvinceReport] ProvinceReport func complete!")
 
 # if __name__ == '__main__':
 #     SubReportOverchar('central',data=requests.get("https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces").json()) #Test Panels
