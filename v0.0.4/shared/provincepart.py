@@ -1,8 +1,3 @@
-import requests
-
-url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces"
-data = requests.get(url).json()
-
 north_index = ['เชียงราย','เชียงใหม่','ลำปาง','ลำพูน','แม่ฮ่องสอน','พะเยา','น่าน','แพร่','อุตรดิตถ์','ตาก']
 northeast_index = ['อำนาจเจริญ','บึงกาฬ','บุรีรัมย์','ชัยภูมิ','กาฬสินธุ์','ขอนแก่น','เลย','มหาสารคาม','มุกดาหาร'
 ,'นครพนม','นครราชสีมา','หนองบัวลำภู','หนองคาย','ร้อยเอ็ด','สกลนคร','ศรีสะเกษ','สุรินทร์','อุบลราชธานี','อุดรธานี','ยโสธร']
@@ -18,25 +13,25 @@ central = []
 east = []
 south = []
 
-def province_part():
+def province_part(data):
     
     for pv in data:
-        for n in north_index:
-            if pv['province'] == n:
+        for a in north_index:
+            if pv['province'] == a:
                 north.append(data.index(pv))
-                north_index.remove(n)
+                north_index.remove(a)
                 break
         
-        for ne in northeast_index:
-            if pv['province'] == ne:
+        for b in northeast_index:
+            if pv['province'] == b:
                 northeast.append(data.index(pv))
-                northeast_index.remove(ne)
+                northeast_index.remove(b)
                 break
         
-        for c in central_index:
-            if pv['province'] == c:
+        for d in central_index:
+            if pv['province'] == d:
                 central.append(data.index(pv))
-                central_index.remove(c)
+                central_index.remove(d)
                 break
         
         for e in east_index:
@@ -45,10 +40,10 @@ def province_part():
                 east_index.remove(e)
                 break
         
-        for s in south_index:
-            if pv['province'] == s:
+        for f in south_index:
+            if pv['province'] == f:
                 south.append(data.index(pv))
-                south_index.remove(s)
+                south_index.remove(f)
                 break
 
     alldict['north'] = north
