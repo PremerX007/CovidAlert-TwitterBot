@@ -16,20 +16,16 @@ def APIAuth(): # API Auth
     logging.info("[APIAuth] Connected!!")
     return api
 
-def FecthLastestTweet(api, func : bool = False): # Fecth Tweeted Timeline
+def FecthLastestTweet(api, text : bool = False): # Fecth Tweeted Timeline
     user_id = 1419691747714605057
     data_tweets = api.user_timeline(user_id=user_id, count=1)
     for tweet in data_tweets:
-        if func:
-            logging.info("[FecthLastestTweet] Fecthing Tweeted Timeline")
-            index = str(tweet.created_at)[:-15]
+        if text:
+            logging.info("[FecthLastestTweet] Fecthing Lastest Tweet Timeline (text)")
+            index = int(tweet.text[19:21])
         else:
             index = int(tweet.id)
     return index
 
 def tweet_msg(msg,api,reply_id=None):
     api.update_status(msg,in_reply_to_status_id=reply_id)
-
-# if __name__ == '__main__':
-#     a=FecthLastestTweet(api=APIAuth()) #Test Panels
-#     logging.info(a)
