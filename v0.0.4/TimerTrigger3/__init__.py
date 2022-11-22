@@ -15,22 +15,19 @@ def main(covidth : func.TimerRequest):
     # Setting Time&Date
     bangkok_tz = pytz.timezone("Asia/Bangkok")
     th_time = datetime.now(bangkok_tz)
-    date_now = th_time.strftime("%Y-%m-%d")
 
     # Twiiter
     api = APIAuth()
-    date_tweeted_fecth = FecthLastestTweet(api,func=True)
+    date_tweeted_fecth = FecthLastestTweet(api,text=True)
     
     # Get Data From MOPH API
     url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
     url_0 = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces"
-    url_1 = "https://covid19.ddc.moph.go.th/api/Cases/timeline-cases-all"
 
     try: # Check The APIs is accessible or not to get.
         try:
             data = requests.get(url).json()[0]
             data_province = requests.get(url_0).json()
-            data_total = requests.get(url_1).json()[-1:][0]
             logging.info("[REQUESTS] Data received.")
 
         except KeyError:
@@ -42,10 +39,9 @@ def main(covidth : func.TimerRequest):
             requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
             data = requests.get(url, verify=False).json()[0]
             data_province = requests.get(url_0, verify=False).json()
-            data_total = requests.get(url_1, verify=False).json()[-1:][0]
             logging.warning("[REQUESTS] Data (not verify SSL) received")
 
-            if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
+            if data['weeknum'] != date_tweeted_fecth:
                 line_notify("🚩[WARNING] Unverified HTTPS request to host 'covid19.ddc.moph.go.th' [SSLCert not verify]", stickerPackageId=789, stickerId=10877)
 
     except Exception as exc:
@@ -55,17 +51,15 @@ def main(covidth : func.TimerRequest):
 
     else:
         # Work process
-        if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
+        if data['weeknum'] != date_tweeted_fecth:
             # Report per province
-            SubReport(api=api, data=data_province, time=th_time)
+            SubReport(api=api, data=data_province)
             # Report Overall
-            OverallDaliyReport(api=api, data=data, data_total=data_total, time=th_time)
+            OverallDaliyReport(api=api, data=data)
             # Line Notificaions
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
             line_notify(f"✅[INFO] Tweeted !! at {line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
 
         # Monitor idle
-        elif date_tweeted_fecth != date_now:
-            logging.info("[IDLE] Wait for new data from API.")
         else:
-            logging.info("[IDLE] Today has already tweeted data.")
+            logging.info("[IDLE] Data has already tweeted.")
