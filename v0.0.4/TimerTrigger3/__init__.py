@@ -8,7 +8,7 @@ from ..shared.twitter import APIAuth, FecthLastestTweet
 from ..shared.allmessage import OverallDaliyReport, SubReport
 from ..shared.linenoti import line_notify
 
-def main(covidth : func.TimerRequest) -> None:
+def main(covidth : func.TimerRequest):
     if covidth.past_due:
         logging.info('System is past due!')
 
@@ -25,35 +25,46 @@ def main(covidth : func.TimerRequest) -> None:
     url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
     url_0 = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces"
     url_1 = "https://covid19.ddc.moph.go.th/api/Cases/timeline-cases-all"
-    try: # Check The APIs is accessible or not.
+
+    try: # Check The APIs is accessible or not to get.
         try:
             data = requests.get(url).json()[0]
             data_province = requests.get(url_0).json()
             data_total = requests.get(url_1).json()[-1:][0]
             logging.info("[REQUESTS] Data received.")
+
         except KeyError:
             data = requests.get(url).json()
             logging.info("[REQUESTS] not the required information.")
             line_notify(f"🚨[ERROR] Pls Check APIs -> {str(data)}", stickerPackageId=11539, stickerId=52114142)
+
         except Exception:
             requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
             data = requests.get(url, verify=False).json()[0]
             data_province = requests.get(url_0, verify=False).json()
             data_total = requests.get(url_1, verify=False).json()[-1:][0]
             logging.warning("[REQUESTS] Data (not verify SSL) received")
+
             if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
                 line_notify("🚩[WARNING] Unverified HTTPS request to host 'covid19.ddc.moph.go.th' [SSLCert not verify]", stickerPackageId=789, stickerId=10877)
+
     except Exception as exc:
         logging.error(f"[REQUESTS] Unable to connect DDC MOPH APIs | Error >> {type(exc)} {exc}")
         line_notify("🚨[ALERT] Unable to connect DDC MOPH APIs")
         line_notify(f"🚨[ERROR] {type(exc)} {exc}", stickerPackageId=11539, stickerId=52114142)
+
     else:
         # Work process
         if data['txn_date'] == date_now and date_tweeted_fecth != date_now:
+            # Report per province
             SubReport(api=api, data=data_province, time=th_time)
+            # Report Overall
             OverallDaliyReport(api=api, data=data, data_total=data_total, time=th_time)
+            # Line Notificaions
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
             line_notify(f"✅[INFO] Tweeted !! at {line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
+
+        # Monitor idle
         elif date_tweeted_fecth != date_now:
             logging.info("[IDLE] Wait for new data from API.")
         else:
