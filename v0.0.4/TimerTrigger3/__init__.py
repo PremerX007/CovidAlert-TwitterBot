@@ -5,7 +5,7 @@ import azure.functions as func
 from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
 from ..shared.twitter import APIAuth, FecthLastestTweet
-from ..shared.allmessage import OverallDaliyReport, SubReport
+from ..shared.allmessage import OverallDaliyReport, ProvinceReport
 from ..shared.linenoti import line_notify
 
 def main(covidth : func.TimerRequest):
@@ -18,7 +18,7 @@ def main(covidth : func.TimerRequest):
 
     # Twiiter
     api = APIAuth()
-    date_tweeted_fecth = FecthLastestTweet(api,text=True)
+    date_tweeted_fecth = FecthLastestTweet(api,week=True)
     
     # Get Data From MOPH API
     url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
@@ -53,7 +53,7 @@ def main(covidth : func.TimerRequest):
         # Work process
         if data['weeknum'] != date_tweeted_fecth:
             # Report per province
-            SubReport(api=api, data=data_province)
+            ProvinceReport(api=api, data=data_province)
             # Report Overall
             OverallDaliyReport(api=api, data=data)
             # Line Notificaions
