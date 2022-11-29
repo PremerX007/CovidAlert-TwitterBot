@@ -22,16 +22,16 @@ def SubReport(api,data,index_data):
             info = info + str(f"{i+1}.{data[index[i]]['province']} {data[index[i]]['new_case']} คน\n")
             if (i+1)%7 == 0: # Split 7 choice per tweet
                 if i > 7:
-                    timeline = str(f"📅 สัปดาห์ที่ {data['weeknum']} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
+                    timeline = str(f"📅 สัปดาห์ที่ {data[index[i]]['weeknum']} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
                     tweet_msg(msg=timeline,api=api,reply_id=FecthLastestTweet(api=api))
                 else:
-                    timeline = str(f"📅 สัปดาห์ที่ {data['weeknum']} 📅\n{header}\n{info}\n{hashtags_msg}")
+                    timeline = str(f"📅 สัปดาห์ที่ {data[index[i]]['weeknum']} 📅\n{header}\n{info}\n{hashtags_msg}")
                     tweet_msg(msg=timeline,api=api)
                 info = str("")
                 continue
 
             if (i+1) == (len(index)): # Tweet remain data in index
-                timeline = str(f"📅 สัปดาห์ที่ {data['weeknum']} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
+                timeline = str(f"📅 สัปดาห์ที่ {data[index[i]]['weeknum']} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
                 tweet_msg(msg=timeline,api=api,reply_id=FecthLastestTweet(api=api))
     
     logging.info("[ProvinceReport] ProvinceReport func complete!")
@@ -56,6 +56,6 @@ def OverallWeekReport(api,data):
     tweet_msg(timeline,api)
     logging.info("[OverallDaliyReport] OverallDaliyReport func complete!")
 
-def ProvinceReport(api,data,time):
+def ProvinceReport(api,data):
     index_data = province_part(data)
-    SubReport(api,data,time,index_data)
+    SubReport(api,data,index_data)
