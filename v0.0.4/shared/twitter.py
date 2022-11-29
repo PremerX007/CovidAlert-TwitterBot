@@ -16,13 +16,13 @@ def APIAuth(): # API Auth
     logging.info("[APIAuth] Connected!!")
     return api
 
-def FecthLastestTweet(api, text : bool = False): # Fecth Tweeted Timeline
+def FecthLastestTweet(api, week : bool = False): # Fecth Tweeted Timeline
     user_id = 1419691747714605057
     data_tweets = api.user_timeline(user_id=user_id, count=1)
     for tweet in data_tweets:
-        if text:
+        if week:
             logging.info("[FecthLastestTweet] Fecthing Lastest Tweet Timeline (text)")
-            index = int(tweet.text[19:21])
+            index = int((tweet.text[:15])[13:15])
         else:
             index = int(tweet.id)
     return index
