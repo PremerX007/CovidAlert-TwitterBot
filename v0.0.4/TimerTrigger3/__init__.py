@@ -6,7 +6,7 @@ from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
 from ..shared.twitter import APIAuth, FecthLastestTweet
 from ..shared.allmessage import OverallDaliyReport, ProvinceReport
-from ..shared.linenoti import line_notify
+from ..shared.linenoti import *
 
 def main(covidth : func.TimerRequest):
     if covidth.past_due:
