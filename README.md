@@ -3,8 +3,6 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/PremerX007/Covid_Alert_TwitterBot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PremerX007/Covid_Alert_TwitterBot/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/PremerX007/Covid_Alert_TwitterBot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PremerX007/Covid_Alert_TwitterBot/context:python)
 
-### :loudspeaker: **In the process of testing the system** :hammer_and_wrench: on Microsoft Azure :toolbox:
-
 ## :wave: About
 Twitter bot for daily reporting of SARS-CoV-2 cases and deaths in Thailand.
 
