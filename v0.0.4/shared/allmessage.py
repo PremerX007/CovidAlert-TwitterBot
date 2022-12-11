@@ -1,7 +1,7 @@
 import logging
 from ..shared.twitter import tweet_msg
 from ..shared.twitter import FecthLastestTweet
-from ..shared.provincepart import province_part
+from ..shared.provincepart import *
 
 def IndexRegionName(regions : str):
     index = {'north' : '\u0e20\u0e32\u0e04\u0e40\u0e2b\u0e19\u0e37\u0e2d', 
