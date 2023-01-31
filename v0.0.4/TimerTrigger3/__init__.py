@@ -5,8 +5,8 @@ import azure.functions as func
 from urllib3.exceptions import InsecureRequestWarning
 from datetime import datetime
 from ..shared.twitter import APIAuth, FecthLastestTweet
-from ..shared.allmessage import OverallDaliyReport, ProvinceReport
-from ..shared.linenoti import *
+from ..shared.allmessage import OverallWeekReport, ProvinceReport
+from ..shared.linenoti import line_notify
 
 def main(covidth : func.TimerRequest):
     if covidth.past_due:
@@ -55,7 +55,7 @@ def main(covidth : func.TimerRequest):
             # Report per province
             ProvinceReport(api=api, data=data_province)
             # Report Overall
-            OverallDaliyReport(api=api, data=data)
+            OverallWeekReport(api=api, data=data)
             # Line Notificaions
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
             line_notify(f"✅[INFO] Tweeted !! at {line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
