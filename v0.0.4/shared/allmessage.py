@@ -49,9 +49,9 @@ def OverallWeekReport(api,data):
     daily_case = str(f"🚨 ติดเชื้อใหม่ {data['new_case']:,} คน\n")
     daily_deaths = str(f"⚠ เสียชีวิต {data['new_death']:,} คน\n")
     
-    total_case = str(f"> ติดเชื้อ {data['total_case']-2223435:,} คน\n")
-    total_deaths = str(f"> เสียชีวิต {data['total_death']-21698:,} คน\n")
-    total_recovered = str(f"> รักษาหาย {data['total_recovered']-2168494:,} คน\n")
+    total_case = str(f"> ติดเชื้อ {data['total_case']:,} คน\n")
+    total_deaths = str(f"> เสียชีวิต {data['total_death']:,} คน\n")
+    total_recovered = str(f"> รักษาหาย {data['total_recovered']:,} คน\n")
     timeline = str(f"📅 สัปดาห์ที่ {data['weeknum']} 📅\n\n{daily_case}{daily_deaths}\n🦠 ยอดสะสมตั้งแต่ต้นปี 🏥\n{total_case}{total_deaths}{total_recovered}{hashtags_msg}ddc.moph.go.th/covid19-dashboard")
     tweet_msg(timeline,api)
     logging.info("[OverallDaliyReport] OverallDaliyReport func complete!")
