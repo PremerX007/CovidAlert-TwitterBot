@@ -1,7 +1,7 @@
 import logging
 from ..shared.twitter import tweet_msg
+from ..shared.provincepart import province_part
 from ..shared.twitter import FecthLastestTweet
-from ..shared.provincepart import *
 
 def IndexRegionName(regions : str):
     index = {'north' : '\u0e20\u0e32\u0e04\u0e40\u0e2b\u0e19\u0e37\u0e2d', 
@@ -57,5 +57,16 @@ def OverallWeekReport(api,data):
     logging.info("[OverallDaliyReport] OverallDaliyReport func complete!")
 
 def ProvinceReport(api,data):
-    index_data = province_part(data)
-    SubReport(api,data,index_data)
+    while True:
+        index_data = province_part(data)
+
+        ' Error Catching (When data from province_part not match) [Testing ...] '
+        # if index_data == 1:
+        #     logging.warning("Rechecking.. Data is not equal")
+        #     continue
+        # else:
+        #     SubReport(api,data,index_data)
+        #     break
+        
+        SubReport(api,data,index_data)
+        break
