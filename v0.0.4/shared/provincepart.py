@@ -14,35 +14,52 @@ northeast = []
 central = []
 east = []
 south = []
+allzone = []
 
 def checker(info):
     for zone in country:
         for province in country[zone]:
-            if info['province'] == province:
-                return zone
+            if info['province'] == province: return zone
                 
-def province_part(data):
+def province_part(data, data_vac):
     for info in data:
         temp = checker(info)
-        if temp == 'north': north.append(data.index(info))
-        elif temp == 'northeast': northeast.append(data.index(info))
-        elif temp == 'central': central.append(data.index(info))
-        elif temp == 'east': east.append(data.index(info))
-        elif temp == 'south': south.append(data.index(info))
-        else: pass
+        if info['new_case'] != 0:
+            if temp == 'north': north.append(data.index(info))
+            elif temp == 'northeast': northeast.append(data.index(info))
+            elif temp == 'central': central.append(data.index(info))
+            elif temp == 'east': east.append(data.index(info))
+            elif temp == 'south': south.append(data.index(info))
+            else: pass
+    
+    for info in data_vac:
+        temp = checker(info)
+        if temp in ['north','northeast','central','east','south']: 
+            if info['vaccine_total'] != 0: allzone.append(data_vac.index(info))
 
     ' Re-checking when does not match. [Testing..] '
     # if collections.Counter([data[x]['province'] for x in north]) != collections.Counter(country['north']): return 1
+
+    for recheck in [data[x]['province'] for x in north]:
+        if recheck not in country['north']: return 1
 
     alldict['north'] = north
     alldict['northeast'] = northeast
     alldict['central'] = central
     alldict['east'] = east
     alldict['south'] = south
+    alldict['allzone'] = allzone
     
+    def sorten_vac(k):
+        return data_vac[k]['vaccine_total']
+
     def sorten(k):
         return data[k]['new_case']
 
-    for i in alldict: alldict[i].sort(reverse=True,key=sorten)
+    for i in alldict:
+        if i == "allzone": 
+            alldict[i].sort(reverse=True, key=sorten_vac) 
+        else:
+            alldict[i].sort(reverse=True, key=sorten)
 
     return alldict
