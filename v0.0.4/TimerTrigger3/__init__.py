@@ -21,24 +21,30 @@ def main(covidth : func.TimerRequest):
     date_tweeted_fecth = FecthLastestTweet(api,week=True)
     
     # Get Data From MOPH API
-    url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
-    url_0 = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces"
+    overall_url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
+    province_url = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces"
+    vaccine_url = "https://covid19.ddc.moph.go.th/api/Vaccinated/weekly-vaccinated"
+    pv_vaccine_url = "https://covid19.ddc.moph.go.th/api/Vaccinated/weekly-vaccinated-by-provice"
 
     try: # Check The APIs is accessible or not to get.
         try:
-            data = requests.get(url).json()[0]
-            data_province = requests.get(url_0).json()
+            data = requests.get(overall_url).json()[0]
+            data_province = requests.get(province_url).json()
+            data_vaccine = requests.get(vaccine_url).json()[0]
+            data_vac_pv = requests.get(pv_vaccine_url).json()
             logging.info("[REQUESTS] Data received.")
 
         except KeyError:
-            data = requests.get(url).json()
+            data = requests.get(overall_url).json()
             logging.info("[REQUESTS] not the required information.")
             line_notify(f"🚨[ERROR] Pls Check APIs -> {str(data)}", stickerPackageId=11539, stickerId=52114142)
 
         except Exception:
             requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
-            data = requests.get(url, verify=False).json()[0]
-            data_province = requests.get(url_0, verify=False).json()
+            data = requests.get(overall_url, verify=False).json()[0]
+            data_province = requests.get(province_url, verify=False).json()
+            data_vaccine = requests.get(vaccine_url, verify=False).json()[0]
+            data_vac_pv = requests.get(pv_vaccine_url, verify=False).json()
             logging.warning("[REQUESTS] Data (not verify SSL) received")
 
             if data['weeknum'] != date_tweeted_fecth:
@@ -53,9 +59,9 @@ def main(covidth : func.TimerRequest):
         # Work process
         if data['weeknum'] != date_tweeted_fecth:
             # Report per province
-            ProvinceReport(api=api, data=data_province)
+            ProvinceReport(api=api, data=data_province, data_vac=data_vac_pv)
             # Report Overall
-            OverallWeekReport(api=api, data=data)
+            OverallWeekReport(api=api, data=data, data_vac=data_vaccine)
             # Line Notificaions
             line_info_datetime = th_time.strftime("%d-%m-%y" + '@' + "%H:%M")
             line_notify(f"✅[INFO] Tweeted !! at {line_info_datetime}", stickerPackageId=11539, stickerId=52114117)
