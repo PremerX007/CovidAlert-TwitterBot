@@ -14,6 +14,7 @@ def IndexRegionName(regions : str):
 def SubReport(api,data,index_data):
     hashtags_msg = str("#โควิดวันนี้ #โควิด19")
     for region in index_data:
+        if region == "allzone": break
         index = index_data[region]
         region_name = IndexRegionName(region)
         header = str(f"🦠 จำนวนผู้ติดเชื้อใหม่ >> {region_name}")
@@ -31,12 +32,19 @@ def SubReport(api,data,index_data):
                 continue
 
             if (i+1) == (len(index)): # Tweet remain data in index
-                timeline = str(f"📅 สัปดาห์ที่ {data[index[i]]['weeknum']} 📅\n{header} (ต่อ)\n{info}\n{hashtags_msg}")
-                tweet_msg(msg=timeline,api=api,reply_id=FecthLastestTweet(api=api))
-    
+                if i+1 > 7:
+                    tor = str("(ต่อ)")
+                    reply_flag = FecthLastestTweet(api=api)
+                else:
+                    tor = str("")
+                    reply_flag = None
+                    
+                timeline = str(f"📅 สัปดาห์ที่ {data[0]['weeknum']} 📅\n{header} {tor}\n{info}\n{hashtags_msg}")
+                tweet_msg(msg=timeline,api=api,reply_id=reply_flag)
+
     logging.info("[ProvinceReport] ProvinceReport func complete!")
 
-def OverallWeekReport(api,data):
+def OverallWeekReport(api,data,data_vac):
     # Get Tranding Hasttag
     logging.info("[OverallDaliyReport] Get Tranding Hasttag")
     woeid = 23424960
@@ -48,17 +56,39 @@ def OverallWeekReport(api,data):
     hashtags_msg = str(f"#โควิดวันนี้ #โควิด19 {hashtags[0]} {hashtags[1]}\n")
     daily_case = str(f"🚨 ติดเชื้อใหม่ {data['new_case']:,} คน\n")
     daily_deaths = str(f"⚠ เสียชีวิต {data['new_death']:,} คน\n")
+    daily_vaccine = str(f"💉 รับวัคซีนแล้ว {data_vac['vaccine_total']:,} โดส\n")
     
     total_case = str(f"> ติดเชื้อ {data['total_case']:,} คน\n")
     total_deaths = str(f"> เสียชีวิต {data['total_death']:,} คน\n")
-    total_recovered = str(f"> รักษาหาย {data['total_recovered']:,} คน\n")
-    timeline = str(f"📅 สัปดาห์ที่ {data['weeknum']} 📅\n\n{daily_case}{daily_deaths}\n🦠 ยอดสะสมตั้งแต่ต้นปี 🏥\n{total_case}{total_deaths}{total_recovered}{hashtags_msg}ddc.moph.go.th/covid19-dashboard")
+
+    timeline = str(f"📅 สัปดาห์ที่ {data['weeknum']} 📅\n\n{daily_case}{daily_deaths}{daily_vaccine}\n🦠 ยอดสะสมตั้งแต่ต้นปี 🏥\n{total_case}{total_deaths}{hashtags_msg}ddc.moph.go.th/covid19-dashboard")
     tweet_msg(timeline,api)
+
     logging.info("[OverallDaliyReport] OverallDaliyReport func complete!")
 
-def ProvinceReport(api,data):
+def VaccineRankingReport(api, data_vac, index_data):
+    header = (f"💉 จำนวนวัคซีนของแต่ละจังหวัดที่ประชาชนได้รับ\nสัปดาห์ที่ {data_vac[0]['weeknum']} ของปี 2023\n")
+    info = str("")
+    rank = 1
+    for data in index_data['allzone']:
+        info += (f"{rank}.{data_vac[data]['province']} {data_vac[data]['vaccine_total']:,} โดส\n")
+        if rank%7 == 0:
+            if rank > 7:
+                tweet_msg(msg=info,api=api,reply_id=FecthLastestTweet(api=api))
+                info = str("")
+            else:
+                timeline = str(f"{header}{info}")
+                tweet_msg(msg=timeline,api=api)
+                info = str("")
+        rank += 1
+
+    if len(info) != 0:
+        tweet_msg(msg=info,api=api,reply_id=FecthLastestTweet(api=api))
+        info = str("")
+
+def ProvinceReport(api,data,data_vac):
     while True:
-        index_data = province_part(data)
+        index_data = province_part(data, data_vac)
 
         ' Error Catching (When data from province_part not match) [Testing ...] '
         # if index_data == 1:
@@ -68,5 +98,6 @@ def ProvinceReport(api,data):
         #     SubReport(api,data,index_data)
         #     break
         
-        SubReport(api,data,index_data)
+        SubReport(api, data, index_data)
+        VaccineRankingReport(api, data_vac, index_data)
         break
