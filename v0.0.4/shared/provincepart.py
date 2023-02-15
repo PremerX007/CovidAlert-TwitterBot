@@ -38,10 +38,10 @@ def province_part(data, data_vac):
             if info['vaccine_total'] != 0: allzone.append(data_vac.index(info))
 
     ' Re-checking when does not match. [Testing..] '
-    # if collections.Counter([data[x]['province'] for x in north]) != collections.Counter(country['north']): return 1
+    # if collections.Counter([data[x]['province'] for x in north]) != collections.Counter(country['north']): return 1 <<< USELESS
 
     for recheck in [data[x]['province'] for x in north]:
-        if recheck not in country['north']: return 1
+        if recheck not in country['north']: return 1 # <<<< ACTIVE
 
     alldict['north'] = north
     alldict['northeast'] = northeast
