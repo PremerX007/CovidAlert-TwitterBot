@@ -19,7 +19,7 @@ Twitter bot for daily reporting of SARS-CoV-2 cases and deaths in Thailand.
 - [v0.0.2](v0.0.2/) (JSON Data) 
 - [v0.0.3](v0.0.3/) (JSON Data + LINE Notify)
 - [v0.0.4](v0.0.4/) (JSON Data + LINE Notify + FixBug) 
-- [v0.0.5](v0.0.5/) (JSON Data + Github Action + FixBugBugBug) [⚙️ Under Development 🛠️]
+- [v0.0.5](v0.0.5/) (JSON Data + Github Action + FixBugBugBug) :electric_plug: ***Under Development*** :wrench:
 
 ---
 ## :pray: Bigthank for DDC API Covid Data TH
