@@ -1,5 +1,5 @@
-from twitter import FecthLastestTweet, Tweet_msg
-from provincepart import Province_part
+from subconfig.twitter import FecthLastestTweet, Tweet_msg
+from subconfig.provincepart import Province_part
 
 def IndexRegionName(regions : str):
     index = {'north' : '\u0e20\u0e32\u0e04\u0e40\u0e2b\u0e19\u0e37\u0e2d', 
