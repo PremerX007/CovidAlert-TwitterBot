@@ -1,5 +1,6 @@
 # Covid Alert TwitterBot
 [![Twitter](https://img.shields.io/twitter/url?label=Twitter&style=social&url=https%3A%2F%2Ftwitter.com%2Fcovidth_alert)](https://twitter.com/covidth_alert)
+[![Covid TwitterBot](https://github.com/PremerX007/Covid_Alert_TwitterBot/actions/workflows/covid-twiiterbot-app.yml/badge.svg?branch=main)](https://github.com/PremerX007/Covid_Alert_TwitterBot/actions/workflows/covid-twiiterbot-app.yml)
 <!--[![Total alerts](https://img.shields.io/lgtm/alerts/g/PremerX007/Covid_Alert_TwitterBot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PremerX007/Covid_Alert_TwitterBot/alerts/)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/PremerX007/Covid_Alert_TwitterBot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/PremerX007/Covid_Alert_TwitterBot/context:python)-->
 
