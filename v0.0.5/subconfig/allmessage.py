@@ -54,7 +54,8 @@ def OverallWeekReport(api, data, data_vac):
     hashtags_msg = str(f"#โควิดวันนี้ #โควิด19 {hashtags[0]} {hashtags[1]}\n")
     daily_case = str(f"🚨 ติดเชื้อใหม่ {data['new_case']:,} คน\n")
     daily_deaths = str(f"⚠ เสียชีวิต {data['new_death']:,} คน\n")
-    daily_vaccine = str(f"💉 รับวัคซีนแล้ว {data_vac['vaccine_total']:,} โดส\n")
+    if(data_vac != None): daily_vaccine = str(f"💉 รับวัคซีนแล้ว {data_vac['vaccine_total']:,} โดส\n")
+    else: daily_vaccine = str(f"💉 รับวัคซีนแล้ว (ไม่ได้รับข้อมูล)\n")
     
     total_case = str(f"> ติดเชื้อ {data['total_case']:,} คน\n")
     total_deaths = str(f"> เสียชีวิต {data['total_death']:,} คน\n\n")
@@ -95,7 +96,7 @@ def ProvinceReport(api, data, data_vac):
         #     break
         
         SubReport(api, data, index_data)
-        VaccineRankingReport(api, data_vac, index_data)
+        if (data_vac != None): VaccineRankingReport(api, data_vac, index_data)
         break
     
 # if __name__ == '__main__':

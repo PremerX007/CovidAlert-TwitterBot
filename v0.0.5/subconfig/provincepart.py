@@ -32,10 +32,11 @@ def Province_part(data, data_vac):
             elif temp == 'south': south.append(data.index(info))
             else: pass
     
-    for info in data_vac:
-        temp = checker(info)
-        if temp in ['north','northeast','central','east','south']: 
-            if info['vaccine_total'] != 0: allzone.append(data_vac.index(info))
+    if(data_vac != None):
+        for info in data_vac:
+            temp = checker(info)
+            if temp in ['north','northeast','central','east','south']: 
+                if info['vaccine_total'] != 0: allzone.append(data_vac.index(info))
 
     ' Re-checking when does not match. [Testing..] '
     # if collections.Counter([data[x]['province'] for x in north]) != collections.Counter(country['north']): return 1
@@ -48,7 +49,7 @@ def Province_part(data, data_vac):
     alldict['central'] = central
     alldict['east'] = east
     alldict['south'] = south
-    alldict['allzone'] = allzone
+    if(data_vac != None): alldict['allzone'] = allzone
     
     def sorten_vac(k):
         return data_vac[k]['vaccine_total']
@@ -56,10 +57,10 @@ def Province_part(data, data_vac):
     def sorten(k):
         return data[k]['new_case']
 
-    for i in alldict:
-        if i == "allzone": 
-            alldict[i].sort(reverse=True, key=sorten_vac) 
+    for key in alldict:
+        if key == "allzone": 
+            alldict[key].sort(reverse=True, key=sorten_vac) 
         else:
-            alldict[i].sort(reverse=True, key=sorten)
+            alldict[key].sort(reverse=True, key=sorten)
 
     return alldict
