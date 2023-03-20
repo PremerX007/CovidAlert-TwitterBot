@@ -15,6 +15,8 @@ def AuthDataChecker():
     try:
         datatest = requests.get(overall_url).json()[0]
         datatest2 = requests.get(vaccine_url).json()[0]
+        print("✅[PROCESS] AuthDataChecker")
+        return True
     except KeyError:
         # Error Ring-Balancer
         print("🚨[ERROR] Ring-Balancer")
